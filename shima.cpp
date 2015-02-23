@@ -16,6 +16,48 @@
 #include <iomanip>
 using namespace std;
 
+// Functions
+
+// "open_input" Function Will Read the Input File and Will Check Its Validity. It Returns One If the File Is Not Valid.
+    
+bool open_input ( string inputfilename, ifstream & ifs ) {
+    ifs.open(inputfilename.c_str());
+
+    // Check to Make Sure the File Is Opened Properly
+
+    if ( !ifs.is_open() ) {
+        return 1;
+    }   
+    return 0;
+} 
+
+// "open_file" Function Will Make a New File.
+    
+void open_file ( string filename, ofstream & ofs ) {
+    ofs.open(filename.c_str());
+    return;
+} 
+
+// "print_output" function Prints Messages on Files.
+
+//void print_output( ofstream & ofs, string message) {
+    //ofs << message;
+    //return;
+//}
+
+
+// "warning" Function Will Send Error Messages to Terminal and Error-file
+// 'a' Is the Number of Entry with Errors, 'b' Is Part of Entry That Has the Error and 'c' Is the Name of Output File for Error
+
+//void warning ( int a, string b, string c ) {
+    //cout << "Warning: There is a problem with the name of the station in entry " << a << " . " << b << " is not valid and is ignored" << endl;
+    //c << "Warning: There is a problem with the name of the station in entry " << a << " . " << b << " is not valid and is ignored" << "\n" ;
+    //c << endl;
+    
+    //return;
+//}    
+
+
 // Main Program.
 // Return Zero on Success, Non-Zero in case of Failure.
 
@@ -23,7 +65,7 @@ int main () {
 
     // Defining Variables' Type
 
-    int num_of_rows = 0, m = 0, n = 0;
+    int num_of_rows = 0, m = 0, n = 0, check = 0;
     float i = 0, j = 1;
     string inputfilename = "shima.in", outputfilename = "shima.out", errorfilename = "shima.err";
 
@@ -33,35 +75,36 @@ int main () {
     cout << "I am so cool, that I was also able to write a code that produces the first M numbers of the Fibonacci sequence. Here they are:" << endl << endl;
 
     
-    // Open the Input File.
-
+    // Open the Input File. 
+    
     ifstream inputfile;
-    inputfile.open(inputfilename.c_str());
-    
-    // Preparing output file and error file
-    
-    ofstream outputfile;
-    ofstream errorfile;
-    outputfile.open(outputfilename.c_str());
-    errorfile.open(errorfilename.c_str());
- 
-    // Check to Make Sure the File Is Opened Properly
+	check = open_input ( inputfilename, inputfile );
+	if ( check == 1 ) {
+	    cout << "Input file does not exist!" << endl;
+	    
+	    // Making error file When There Is Error
 
-    if ( !inputfile.is_open() ) {
-        cout << "Input file does not exist!" << endl;
+	    ofstream errorfile;
+	    open_file ( errorfilename, errorfile );
         errorfile << "Input file does not exist!" << endl;
         return 1;
-    }   
-    
-    inputfile >> num_of_rows;
-    
+    }    
+  
     //  Check the Validity of Input
     
+    inputfile >> num_of_rows;
     if ( num_of_rows < 1 ) {
         cout << "Input for number of rows is not valid. It should be equal or more than one." << endl;
+        ofstream errorfile;
+        open_file ( errorfilename, errorfile );
         errorfile << "Input for number of rows is not valid. It should be equal or more than one." << endl;
         return 2;
     }    
+
+    // Preparing output file
+    
+    ofstream outputfile;
+    open_file ( outputfilename, outputfile );
 
     // Producing Fibonacci Series. In Math It Starts from 1, But in Modern Usage It Starts from 0. We Choose 0 as a Starting Point.
 
