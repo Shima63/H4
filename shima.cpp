@@ -14,47 +14,15 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
-#incluse <sstream>
+#include <sstream>
 using namespace std;
 
-// Functions
+// Function Prototype
 
-// "open_input" Function Will Read the Input File and Will Check Its Validity. It Returns One If the File Is Not Valid.
-    
-bool open_input ( string inputfilename, ifstream & ifs ) {
-    ifs.open(inputfilename.c_str());
-
-    // Check to Make Sure the File Is Opened Properly
-
-    if ( !ifs.is_open() ) {
-        return 1;
-    }   
-    return 0;
-} 
-
-// "open_file" Function Will Make a New File.
-    
-void open_file ( string filename, ofstream & ofs ) {
-    ofs.open(filename.c_str());
-    return;
-} 
-
-// "print_error" function Prints Messages on Files and Terminal.
-
-void print_error( string filename, string message, ofstream & ofs ) {
-    ofs << message;
-    cout << message << endl;
-    return;
-}
-
-// "print_output" function Prints Outputs for This Program.
-
-void print_output( string filename, double number, ofstream & ofs ) {
-    ofs << setw (20) << left << number; // Less than 20 Digits Assumed for Numbers
-    cout << setw (20) << left << number;
-    return;
-}
-
+bool open_input ( string, ifstream & );
+void open_file ( string, ofstream & );
+void print_error( string, string, ofstream & );
+void print_output( string, double, ofstream & );
 
 // Main Program.
 // Return Zero on Success, Non-Zero in case of Failure.
@@ -117,9 +85,8 @@ int main () {
             i = i + j;
             j = j + i;
             m = m + 2;
-        } 
-        cout << endl;
-        outputfile << endl;   
+        }
+        print_error( outputfilename, "\n", outputfile );
     }
     
     inputfile.close ();
@@ -127,4 +94,44 @@ int main () {
     
     return 0;
 }
+
+
+// Functions
+
+// "open_input" Function Will Read the Input File and Will Check Its Validity. It Returns One If the File Is Not Valid.
+    
+bool open_input ( string inputfilename, ifstream & ifs ) {
+    ifs.open(inputfilename.c_str());
+
+    // Check to Make Sure the File Is Opened Properly
+
+    if ( !ifs.is_open() ) {
+        return 1;
+    }   
+    return 0;
+} 
+
+// "open_file" Function Will Make a New File.
+    
+void open_file ( string filename, ofstream & ofs ) {
+    ofs.open(filename.c_str());
+    return;
+} 
+
+// "print_error" function Prints Messages on Files and Terminal.
+
+void print_error( string filename, string message, ofstream & ofs ) {
+    ofs << message;
+    cout << message << endl;
+    return;
+}
+
+// "print_output" function Prints Outputs for This Program.
+
+void print_output( string filename, double number, ofstream & ofs ) {
+    ofs << setw (20) << left << number; // Less than 20 Digits Assumed for Numbers
+    cout << setw (20) << left << number;
+    return;
+}
+
  
