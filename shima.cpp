@@ -14,6 +14,7 @@
 #include <string>
 #include <fstream>
 #include <iomanip>
+#incluse <sstream>
 using namespace std;
 
 // Functions
@@ -38,24 +39,21 @@ void open_file ( string filename, ofstream & ofs ) {
     return;
 } 
 
-// "print_output" function Prints Messages on Files.
+// "print_error" function Prints Messages on Files and Terminal.
 
-//void print_output( ofstream & ofs, string message) {
-    //ofs << message;
-    //return;
-//}
+void print_error( string filename, string message, ofstream & ofs ) {
+    ofs << message;
+    cout << message << endl;
+    return;
+}
 
+// "print_output" function Prints Outputs for This Program.
 
-// "warning" Function Will Send Error Messages to Terminal and Error-file
-// 'a' Is the Number of Entry with Errors, 'b' Is Part of Entry That Has the Error and 'c' Is the Name of Output File for Error
-
-//void warning ( int a, string b, string c ) {
-    //cout << "Warning: There is a problem with the name of the station in entry " << a << " . " << b << " is not valid and is ignored" << endl;
-    //c << "Warning: There is a problem with the name of the station in entry " << a << " . " << b << " is not valid and is ignored" << "\n" ;
-    //c << endl;
-    
-    //return;
-//}    
+void print_output( string filename, double number, ofstream & ofs ) {
+    ofs << setw (20) << left << number; // Less than 20 Digits Assumed for Numbers
+    cout << setw (20) << left << number;
+    return;
+}
 
 
 // Main Program.
@@ -66,8 +64,8 @@ int main () {
     // Defining Variables' Type
 
     int num_of_rows = 0, m = 0, n = 0, check = 0;
-    float i = 0, j = 1;
-    string inputfilename = "shima.in", outputfilename = "shima.out", errorfilename = "shima.err";
+    double i = 0, j = 1;
+    string inputfilename = "shima.in", outputfilename = "shima.out", errorfilename = "shima.err", message;
 
     // First Checking Messages.
     
@@ -80,13 +78,13 @@ int main () {
     ifstream inputfile;
 	check = open_input ( inputfilename, inputfile );
 	if ( check == 1 ) {
-	    cout << "Input file does not exist!" << endl;
+		message = "Input file does not exist!";
 	    
 	    // Making error file When There Is Error
 
 	    ofstream errorfile;
 	    open_file ( errorfilename, errorfile );
-        errorfile << "Input file does not exist!" << endl;
+	    print_error( errorfilename, message, errorfile );
         return 1;
     }    
   
@@ -94,10 +92,13 @@ int main () {
     
     inputfile >> num_of_rows;
     if ( num_of_rows < 1 ) {
-        cout << "Input for number of rows is not valid. It should be equal or more than one." << endl;
+        message = "Input for number of rows is not valid. It should be equal or more than one.";
         ofstream errorfile;
+        
+        // Making error file When There Is Error
+
         open_file ( errorfilename, errorfile );
-        errorfile << "Input for number of rows is not valid. It should be equal or more than one." << endl;
+	    print_error( errorfilename, message, errorfile );
         return 2;
     }    
 
@@ -111,10 +112,8 @@ int main () {
     for ( n = 1; n <= num_of_rows; n++ ) {
         m = 0;
         while ( m < 10 ) {
-            cout << setw (20) << left << i; // Less than 20 Digits Assumed for Numbers
-            cout << setw (20) << left << j;
-            outputfile << setw (20) << left << i;
-            outputfile << setw (20) << left << j;
+            print_output( outputfilename, i, outputfile );
+            print_output( outputfilename, j, outputfile );
             i = i + j;
             j = j + i;
             m = m + 2;
