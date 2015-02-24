@@ -21,8 +21,8 @@ using namespace std;
 
 bool open_input ( string, ifstream & );
 void open_file ( string, ofstream & );
-void print_error( string, string, ofstream & );
-void print_output( string, double, ofstream & );
+void print_file ( string, string, ofstream & );
+void print_file ( string, double, ofstream & );
 
 // Main Program.
 // Return Zero on Success, Non-Zero in case of Failure.
@@ -46,13 +46,13 @@ int main () {
     ifstream inputfile;
 	check = open_input ( inputfilename, inputfile );
 	if ( check == 1 ) {
-		message = "Input file does not exist!";
+	    message = "Input file does not exist!";
 	    
 	    // Making error file When There Is Error
 
 	    ofstream errorfile;
 	    open_file ( errorfilename, errorfile );
-	    print_error( errorfilename, message, errorfile );
+	    print_file ( errorfilename, message, errorfile );
         return 1;
     }    
   
@@ -66,7 +66,7 @@ int main () {
         // Making error file When There Is Error
 
         open_file ( errorfilename, errorfile );
-	    print_error( errorfilename, message, errorfile );
+	    print_file ( errorfilename, message, errorfile );
         return 2;
     }    
 
@@ -80,13 +80,13 @@ int main () {
     for ( n = 1; n <= num_of_rows; n++ ) {
         m = 0;
         while ( m < 10 ) {
-            print_output( outputfilename, i, outputfile );
-            print_output( outputfilename, j, outputfile );
+            print_file ( outputfilename, i, outputfile );
+            print_file ( outputfilename, j, outputfile );
             i = i + j;
             j = j + i;
             m = m + 2;
         }
-        print_error( outputfilename, "\n", outputfile );
+        print_file ( outputfilename, "\n", outputfile );
     }
     
     inputfile.close ();
@@ -118,17 +118,17 @@ void open_file ( string filename, ofstream & ofs ) {
     return;
 } 
 
-// "print_error" function Prints Messages on Files and Terminal.
+// This "print_file" function Prints Messages on Files and Terminal. Message Is of String Type.
 
-void print_error( string filename, string message, ofstream & ofs ) {
+void print_file ( string filename, string message, ofstream & ofs ) {
     ofs << message;
     cout << message << endl;
     return;
 }
 
-// "print_output" function Prints Outputs for This Program.
+// This "print_file" function Prints Outputs for This Program. Output Is Double Type.
 
-void print_output( string filename, double number, ofstream & ofs ) {
+void print_file ( string filename, double number, ofstream & ofs ) {
     ofs << setw (20) << left << number; // Less than 20 Digits Assumed for Numbers
     cout << setw (20) << left << number;
     return;
